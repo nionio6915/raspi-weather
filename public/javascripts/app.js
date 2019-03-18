@@ -10,7 +10,7 @@ var config = {
      * fahrenheit or celsius
      * If you change this to fahrenheit, make sure you change the color zones below as well!
      */
-    unit: 'celsius',
+    unit: 'fahrenheit',
 
     /**
      * Coordinates for getting outside weather data from darksky.net
@@ -20,8 +20,8 @@ var config = {
      * You can disable geolocation and provide coordinates if you want.
      */
     useGeoLocation: true,
-    latitude: 47.51,
-    longitude: 19.09,
+    latitude: 42.167606,
+    longitude: -87.897102,
 
     /**
      * Color zones for the graph lines.
@@ -43,7 +43,7 @@ var config = {
      * Dark Sky API key.
      * Please don't abuse this. Be a good guy and request your own at https://darksky.net/dev
      */
-    APIKey: '262d0436a1b2d47e7593f0bb41491b64',
+    APIKey: 'c937e4a5d3972fcec24e1444ae273932',
 
     // Limits of the night plotband (the gray area on the graphs)
     nightStart: 0,
@@ -75,7 +75,7 @@ var globalHighchartsOptions = {
     },
     yAxis: [{
         title: {
-            text: 'Temperature (°C)',
+            text: 'Temperature (°F)',
             margin: 5,
             style: {
                 fontWeight: 'bold'
@@ -106,7 +106,32 @@ var globalHighchartsOptions = {
                 enabled: false
             },
             tooltip: {
-                valueSuffix: '°C'
+                valueSuffix: '°F'
+            },
+            color: '#F18324',
+            zones: [{
+                value: config.zones.low,
+                color: '#F1AE24'
+            },
+            {
+                value: config.zones.med,
+                color: '#F18324'
+            },
+            {
+                value: config.zones.high,
+                color: '#F2552E'
+            }]
+        },
+        {
+            name: 'Temperature2',
+            yAxis: 0,
+            data: [ ],
+            lineWidth: 4,
+            marker: {
+                enabled: false
+            },
+            tooltip: {
+                valueSuffix: '°F'
             },
             color: '#F18324',
             zones: [{
@@ -124,6 +149,18 @@ var globalHighchartsOptions = {
         },
         {
             name: 'Humidity',
+            yAxis: 1,
+            data: [],
+            marker: {
+                enabled: false
+            },
+            tooltip: {
+                valueSuffix: '%'
+            },
+            color: '#869BCE'
+        },
+        {
+            name: 'Humidity2',
             yAxis: 1,
             data: [],
             marker: {
@@ -196,6 +233,16 @@ function loadChart(APICall, DOMtarget, moreOptions) {
                 m.valueOf(),
                 el.humidity
             ]);
+            // djp edit add series. 4 since 0, 1, 2, 3 already defined
+            options.series[4].data.push([
+                m.valueOf(),
+                format(el.temperature2)
+            ]);
+
+            options.series[5].data.push([
+                m.valueOf(),
+                el.humidity2
+            ]);
 
             // Computing plot bands for the night interval(s)
             // Night start
@@ -262,7 +309,7 @@ function loadDoubleChart(APICall, DOMtarget, moreOptions) {
                 enabled: false
             },
             tooltip: {
-                valueSuffix: '°C'
+                valueSuffix: '°F'
             },
             color: '#F18324',
             zones: [{
@@ -315,6 +362,15 @@ function loadDoubleChart(APICall, DOMtarget, moreOptions) {
                 m.valueOf(),
                 el.humidity
             ]);
+
+            options.series[4].data.push([
+                m.valueOf(),
+                format(el.temperature2)
+            ]);
+            options.series[5].data.push([
+                m.valueOf(),
+                el.humidity2
+            ]);
         });
 
         // Yesterday
@@ -332,6 +388,12 @@ function loadDoubleChart(APICall, DOMtarget, moreOptions) {
         });
 
         options.series[1].dashStyle = 'solid';
+        options.tooltip.xDateFormat = '%H:%M';
+        options.xAxis.labels = {
+            format: '{value: %H:%M}'
+        };
+
+        options.series[4].dashStyle = 'solid';
         options.tooltip.xDateFormat = '%H:%M';
         options.xAxis.labels = {
             format: '{value: %H:%M}'
@@ -361,6 +423,8 @@ function loadCurrentData() {
 
         $('#curr-temp-inside').text(format(json.temperature) + '°');
         $('#curr-hum-inside').text(json.humidity + '%');
+        $('#curr-temp-inside2').text(format(json.temperature2) + '°');
+        $('#curr-hum-inside2').text(json.humidity2 + '%');
     });
 }
 
@@ -561,7 +625,7 @@ $(document).ready(function() {
 
 
     $('#btn-reload-inside').on('click', function() {
-        $('#curr-temp-inside, #curr-hum-inside').text('...');
+        $('#curr-temp-inside, #curr-hum-inside, #curr-temp-inside2, #curr-hum-inside2').text('...');
         loadCurrentData();
     });
 
@@ -572,7 +636,7 @@ $(document).ready(function() {
 
     $('#btn-reload-all').on('click', function() {
         $('#error-container').empty();
-        $('#curr-temp-outside, #curr-hum-outside, #curr-temp-inside, #curr-hum-inside, #forecast-summary').text('...');
+        $('#curr-temp-outside, #curr-hum-outside, #curr-temp-inside, #curr-hum-inside, #curr-temp-inside2, #curr-hum-inside2, #forecast-summary').text('...');
         $('#chart-today-vs, #chart-past').each(function(i, el) {
             if ($(el).highcharts()) {
                 // It might be uninitialized due to a previous error (eg. network error)
