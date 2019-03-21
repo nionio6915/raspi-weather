@@ -10,7 +10,7 @@ var config = {
      * fahrenheit or celsius
      * If you change this to fahrenheit, make sure you change the color zones below as well!
      */
-    unit: 'celsius',
+    unit: 'fahrenheit',
 
     /**
      * Coordinates for getting outside weather data from darksky.net
@@ -20,8 +20,8 @@ var config = {
      * You can disable geolocation and provide coordinates if you want.
      */
     useGeoLocation: true,
-    latitude: 47.51,
-    longitude: 19.09,
+    latitude: 42.1711,
+    longitude: 87.8445,
 
     /**
      * Color zones for the graph lines.
@@ -43,7 +43,7 @@ var config = {
      * Dark Sky API key.
      * Please don't abuse this. Be a good guy and request your own at https://darksky.net/dev
      */
-    APIKey: '262d0436a1b2d47e7593f0bb41491b64',
+    APIKey: 'c937e4a5d3972fcec24e1444ae273932',
 
     // Limits of the night plotband (the gray area on the graphs)
     nightStart: 0,
@@ -75,14 +75,14 @@ var globalHighchartsOptions = {
     },
     yAxis: [{
         title: {
-            text: 'Temperature (°C)',
+            text: 'Temperature (°F)',
             margin: 5,
             style: {
                 fontWeight: 'bold'
             }
         },
         opposite: true,
-        tickInterval: config.unit === 'celsius' ? 1 : 10
+        tickInterval: config.unit === 'fahrenheit' ? 1 : 10
     },
     {
         title: {
@@ -106,7 +106,7 @@ var globalHighchartsOptions = {
                 enabled: false
             },
             tooltip: {
-                valueSuffix: '°C'
+                valueSuffix: '°F'
             },
             color: '#F18324',
             zones: [{
@@ -123,6 +123,31 @@ var globalHighchartsOptions = {
             }]
         },
         {
+            name: 'Temperature2',
+            yAxis: 0,
+            data: [ ],
+            lineWidth: 4,
+            marker: {
+                enabled: false
+            },
+            tooltip: {
+                valueSuffix: '°F'
+            },
+            color: '#BD22F1',
+            zones: [{
+                value: config.zones.low,
+                color: '#FF0080'
+            },
+            {
+                value: config.zones.med,
+                color: '#BD22F1'
+            },
+            {
+                value: config.zones.high,
+                color: '#C02CF2'
+            }]
+        },
+        {
             name: 'Humidity',
             yAxis: 1,
             data: [],
@@ -133,6 +158,18 @@ var globalHighchartsOptions = {
                 valueSuffix: '%'
             },
             color: '#869BCE'
+        },
+        {
+            name: 'Humidity2',
+            yAxis: 1,
+            data: [],
+            marker: {
+                enabled: false
+            },
+            tooltip: {
+                valueSuffix: '%'
+            },
+            color: '#AB88CE'
         }
     ],
     legend: {
@@ -154,7 +191,13 @@ var stats = {
         temperature: {
             avg: 0
         },
+        temperature2: {
+            avg: 0
+        },
         humidity: {
+            avg: 0
+        },
+        humidity2: {
             avg: 0
         }
     },
@@ -162,7 +205,13 @@ var stats = {
         temperature: {
             avg: 0
         },
+        temperature2: {
+            avg: 0
+        },
         humidity: {
+            avg: 0
+        },
+        humidity2: {
             avg: 0
         }
     },
@@ -195,6 +244,16 @@ function loadChart(APICall, DOMtarget, moreOptions) {
             options.series[1].data.push([
                 m.valueOf(),
                 el.humidity
+            ]);
+
+            options.series[2].data.push([
+                m.valueOf(),
+                format(el.temperature2)
+            ]);
+
+            options.series[3].data.push([
+                m.valueOf(),
+                el.humidity2
             ]);
 
             // Computing plot bands for the night interval(s)
@@ -315,19 +374,35 @@ function loadDoubleChart(APICall, DOMtarget, moreOptions) {
                 m.valueOf(),
                 el.humidity
             ]);
+            options.series[2].data.push([
+                m.valueOf(),
+                format(el.temperature2)
+            ]);
+            options.series[3].data.push([
+                m.valueOf(),
+                el.humidity2
+            ]);
         });
 
         // Yesterday
         $.each(json.second.data, function(index, el) {
             // The same rounding as above with today's data
             var m = moment.utc(el.timestamp).local().seconds(0);
-            options.series[2].data.push([
+            options.series[4].data.push([
                 m.valueOf(),
                 format(el.temperature)
             ]);
-            options.series[3].data.push([
+            options.series[5].data.push([
                 m.valueOf,
                 el.humidity
+            ]);
+            options.series[6].data.push([
+                m.valueOf(),
+                format(el.temperature2)
+            ]);
+            options.series[7].data.push([
+                m.valueOf,
+                el.humidity2
             ]);
         });
 
@@ -336,7 +411,8 @@ function loadDoubleChart(APICall, DOMtarget, moreOptions) {
         options.xAxis.labels = {
             format: '{value: %H:%M}'
         };
-        options.series[3].visible = false;
+        options.series[5].visible = false;
+        options.series[7].visible = false;
 
         // Adding a red vertical marker at the last measurement
         // The same subtraction as above
@@ -361,6 +437,8 @@ function loadCurrentData() {
 
         $('#curr-temp-inside').text(format(json.temperature) + '°');
         $('#curr-hum-inside').text(json.humidity + '%');
+        $('#curr-temp-inside2').text(format(json.temperature2) + '°');
+        $('#curr-hum-inside2').text(json.humidity2 + '%');
     });
 }
 
@@ -562,6 +640,7 @@ $(document).ready(function() {
 
     $('#btn-reload-inside').on('click', function() {
         $('#curr-temp-inside, #curr-hum-inside').text('...');
+        $('#curr-temp-inside2, #curr-hum-inside2').text('...');
         loadCurrentData();
     });
 
@@ -572,7 +651,7 @@ $(document).ready(function() {
 
     $('#btn-reload-all').on('click', function() {
         $('#error-container').empty();
-        $('#curr-temp-outside, #curr-hum-outside, #curr-temp-inside, #curr-hum-inside, #forecast-summary').text('...');
+        $('#curr-temp-outside, #curr-hum-outside, #curr-temp-inside, #curr-hum-inside, #curr-temp-inside2, #curr-hum-inside2, #forecast-summary').text('...');
         $('#chart-today-vs, #chart-past').each(function(i, el) {
             if ($(el).highcharts()) {
                 // It might be uninitialized due to a previous error (eg. network error)
