@@ -6,8 +6,8 @@ import os
 
 sensor = Adafruit_DHT.DHT22
 pin = 4
-sensor2 = Adafruit_DHT.DHT22
-pin2 = 10
+sensor2 = Adafruit_DHT.DHT11
+pin2 = 24
 
 humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 print 'Temp: {0:0.1f} *C, Humidity: {1:0.1f}%'.format(temperature, humidity)
