@@ -1,0 +1,206 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="stylesheets/bootstrap.css" />
+    <link rel="stylesheet" href="stylesheets/bootstrap-theme.css" />
+    <link rel="stylesheet" href="stylesheets/font-awesome.min.css" />
+    <link rel="stylesheet" href="stylesheets/style.css" />
+
+    <script src="javascripts/jquery-2.1.4.js"></script>
+    <script src="javascripts/bootstrap.js"></script>
+    <script src="javascripts/highcharts-custom.js"></script>
+    <script src="javascripts/moment.js"></script>
+    <script src="javascripts/app.js"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <div class="container">
+            <nav class="navbar navbar-default">
+              <div class="container-fluid">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#">Weather Station</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav">
+                    <li>
+                        <button id="btn-reload-all" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Reload all">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                        
+                    </li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">
+<<<<<<< HEAD:public/index_2-sensor.html:public/index_2-sensor.html
+                    <li><a href="https://github.com/nionio6915/raspi-weather" target="_blank">nionion6915 fork on GitHub</a></li>
+=======
+                    <li><a href="https://github.com/ofalvai/raspi-weather" target="_blank">GitHub</a></li>
+>>>>>>> c7c7563cbb56c35ad04d0bb544196a5cd4e6afe6:public/index.html:public/index.html
+                  </ul>
+                </div>
+              </div>
+            </nav>
+
+            <div id="error-container"></div>
+
+            <!-- Small widgets -->
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <!-- Currently inside -->
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-home fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div id="curr-temp-inside" class="huge">°</div>
+                                    <div>Humidity: <span id="curr-hum-inside"></span></div>
+                                </div>
+                            </div>
+<<<<<<< HEAD:public/index_2-sensor.html:public/index_2-sensor.html
+                            <!--djp add second series -->
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-home fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div id="curr-temp-inside2" class="huge">°</div>
+                                    <div>Humidity: <span id="curr-hum-inside2"></span></div>
+                                </div>
+                            </div>
+                            <!--djp add second series --> 
+=======
+>>>>>>> c7c7563cbb56c35ad04d0bb544196a5cd4e6afe6:public/index.html:public/index.html
+                        </div>
+                        <div class="panel-footer">
+                            <span class="pull-left">Currently inside</span>
+                            <span id="btn-reload-inside" class="pull-right btn-reload-small"><i class="fa fa-refresh"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Currently outside -->
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-tree fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div id="curr-temp-outside" class="huge"></div>
+                                    <div>Humidity: <span id="curr-hum-outside"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <span class="pull-left">Currently Outside</span>
+                            <span id="btn-reload-outside" class="pull-right btn-reload-small"><i class="fa fa-refresh"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forecast -->
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-cloud fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div id="forecast-summary"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <a id="forecast-link" target="_blank">
+                            <div class="panel-footer">
+                                <span class="pull-left">Details on Dark Sky</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Graphs, main content -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Graph: today vs. yesterday -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Today vs.
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                    <span>yesterday</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li id="chart-interval-today-vs" class="dropdown-header">Select interval</li>
+                                    <li data-selector="yesterday"><a href="#">yesterday</a></li>
+                                    <!-- <li class="divider" role="separator"></li> -->
+                                    <!-- <li data-selector="custom"><a href="#">custom</a></li> -->
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="highcharts-container" id="chart-today-vs"></div>
+                        </div>
+                    </div>
+
+                    <!-- Graph: Last week -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Last
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                    <span id="dropdown-label-past">week</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul id="chart-interval-past" class="dropdown-menu" role="menu">
+                                    <li class="dropdown-header">Select interval</li>
+                                    <li data-interval="24h"><a href="#">24h</a></li>
+                                    <li data-interval="week"><a href="#">week</a></li>
+                                    <li data-interval="month"><a href="#">month</a></li>
+                                    <!-- <li class="divider" role="separator"></li> -->
+                                    <!-- <li data-interval="custom"><a href="#">custom</a></li> -->
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="highcharts-container" id="chart-past"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right side panels -->
+                <div class="col-lg-4">
+                    <!-- Stats -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Stats
+                        </div>
+                        <div id="stats" class="panel-body">
+                        </div>
+                    </div>        
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<<<<<<< HEAD:public/index_2-sensor.html:public/index_2-sensor.html
+</html>
+=======
+</html>
+>>>>>>> c7c7563cbb56c35ad04d0bb544196a5cd4e6afe6:public/index.html:public/index.html
