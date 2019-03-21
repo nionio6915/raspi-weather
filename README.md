@@ -18,7 +18,7 @@ DHT22 temperature/humidity sensor logger and browser dashboard for the Raspberry
 sudo apt-get install sqlite3
 wget http://node-arm.herokuapp.com/node_latest_armhf.deb
 sudo dpkg -i node_latest_armhf.deb
-git clone git@github.com:ofalvai/raspi-weather.git
+git clone https://github.com/nionio6915/raspi-weather
 cd raspi-weather
 npm install
 ```

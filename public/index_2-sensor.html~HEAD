@@ -40,7 +40,11 @@
                     </li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
+<<<<<<< HEAD:public/index_2-sensor.html:public/index_2-sensor.html
+                    <li><a href="https://github.com/nionio6915/raspi-weather" target="_blank">nionion6915 fork on GitHub</a></li>
+=======
                     <li><a href="https://github.com/ofalvai/raspi-weather" target="_blank">GitHub</a></li>
+>>>>>>> c7c7563cbb56c35ad04d0bb544196a5cd4e6afe6:public/index.html:public/index.html
                   </ul>
                 </div>
               </div>
@@ -63,6 +67,20 @@
                                     <div>Humidity: <span id="curr-hum-inside"></span></div>
                                 </div>
                             </div>
+<<<<<<< HEAD:public/index_2-sensor.html:public/index_2-sensor.html
+                            <!--djp add second series -->
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-home fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div id="curr-temp-inside2" class="huge">°</div>
+                                    <div>Humidity: <span id="curr-hum-inside2"></span></div>
+                                </div>
+                            </div>
+                            <!--djp add second series --> 
+=======
+>>>>>>> c7c7563cbb56c35ad04d0bb544196a5cd4e6afe6:public/index.html:public/index.html
                         </div>
                         <div class="panel-footer">
                             <span class="pull-left">Currently inside</span>
@@ -181,4 +199,8 @@
         </div>
     </div>
 </body>
+<<<<<<< HEAD:public/index_2-sensor.html:public/index_2-sensor.html
 </html>
+=======
+</html>
+>>>>>>> c7c7563cbb56c35ad04d0bb544196a5cd4e6afe6:public/index.html:public/index.html
